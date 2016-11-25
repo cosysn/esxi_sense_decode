@@ -31,6 +31,7 @@ typedef struct sense_reason {
 #define VMK_SCSI_HOST_SOFT_ERROR  0x0b
 #define VMK_SCSI_HOST_RETRY       0x0c
 #define VMK_SCSI_HOST_REQUEUE     0x0d
+#define VMK_SCSI_HOST_UNKNOWN     0xFF
 
 static sense_reason_t host_status_list[] =
 {
@@ -51,7 +52,6 @@ static sense_reason_t host_status_list[] =
 	{VMK_SCSI_HOST_UNKNOWN, "UNKNOWN", "Host Status Code unknown."},
 };
 
-#define VMK_SCSI_DEVICE_NUM 12
 #define VMK_SCSI_DEVICE_GOOD 0x00
 #define VMK_SCSI_DEVICE_CHECK_CONDITION 0x02
 #define VMK_SCSI_DEVICE_CONDITION_MET 0x04
@@ -63,7 +63,7 @@ static sense_reason_t host_status_list[] =
 #define VMK_SCSI_DEVICE_QUEUE_FULL 0x28
 #define VMK_SCSI_DEVICE_ACA_ACTIVE 0x30
 #define VMK_SCSI_DEVICE_TASK_ABORTED 0x40
-#define VMK_SCSI_DEVICE_UNKNOWN      0xffff
+#define VMK_SCSI_DEVICE_UNKNOWN      0xFF
 
 static sense_reason_t device_status_list[] =
 {
@@ -82,7 +82,6 @@ static sense_reason_t device_status_list[] =
     
 };
 
-#define VMK_SCSI_PLUGIN_NUM 10
 #define VMK_SCSI_PLUGIN_GOOD 0x00
 #define VMK_SCSI_PLUGIN_TRANSIENT 0x01
 #define VMK_SCSI_PLUGIN_SNAPSHOT 0x02
@@ -92,7 +91,7 @@ static sense_reason_t device_status_list[] =
 #define VMK_SCSI_PLUGIN_THINPROV_BUSY_GROWING 0x06
 #define VMK_SCSI_PLUGIN_THINPROV_ATQUOTA 0x07
 #define VMK_SCSI_PLUGIN_THINPROV_NOSPACE 0x08
-#define VMK_SCSI_PLUGIN_UNKOWN 0xffff
+#define VMK_SCSI_PLUGIN_UNKOWN 0xFF
 
 static sense_reason_t plugin_status_list[] =
 {
@@ -108,7 +107,6 @@ static sense_reason_t plugin_status_list[] =
     {VMK_SCSI_PLUGIN_UNKOWN, "UNKNOWN", "Device Status Code unknown."},
 };
 
-#define VMK_SCSI_SENSE_NUM 16
 #define VMK_SCSI_SENSE_NO_SENSE 0x00
 #define VMK_SCSI_SENSE_RECOVERED_ERROR 0x01
 #define VMK_SCSI_SENSE_NOT_READY 0x02
@@ -124,7 +122,7 @@ static sense_reason_t plugin_status_list[] =
 #define VMK_SCSI_SENSE_VOLUME_OVERFLOW 0x0D
 #define VMK_SCSI_SENSE_MISCOMPARE 0x0E
 #define VMK_SCSI_SENSE_COMPLETED 0x0F
-#define VMK_SCSI_SENSE_UNKNOWN 0xFFFF
+#define VMK_SCSI_SENSE_UNKNOWN 0xFF
 
 static sense_reason_t sense_keys_list[] =
 {
@@ -896,6 +894,10 @@ static sense_reason_t asc_ascq_list[] =
     {ASC_ASCQ_TO_INT(0x3f, 0x13), "", "iSCSI IP ADDRESS REMOVED"},
 	{ASC_ASCQ_TO_INT(0xff, 0xff), "", "Additional Sense Data unknown"},
 };
+
+
+
+
 
 
 #ifdef __cplusplus

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
+#include <errno.h>
 #include "esd.h"
 
 /**
@@ -41,11 +42,11 @@ void decode_device_status(int device)
     
 	len = sizeof(device_status_list) / sizeof(device_status_list[0]);
     for (i = 0; i < len-1; i++) {
-        if (device_status[i].code == device)
+        if (device_status_list[i].code == device)
             break;
     }
 
-    reason = &device_status[i];
+    reason = &device_status_list[i];
     if (i == len-1) {
         reason->code = device;
     }
@@ -119,6 +120,11 @@ void decode_asc_ascq(int asc, int ascq)
     printf("Description: %s\n", reason->desc);
 }
 
+void usage(void)
+{
+	
+}
+
 int main(int argc, char **argv)
 {
     int ret = 0;
@@ -139,52 +145,46 @@ int main(int argc, char **argv)
         {"version",               no_argument, NULL, 'v'},
         {0, 0, 0, 0}
     };
-	
-	ret = ASC_ASCQ_TO_INT(0x20, 0x0b);
-	printf("ret = %x\n", ret);
 
     while((opt = getopt_long(argc, argv, short_opts, long_opts, &idx)) != -1) {
         switch (opt) {
             case 'h':
                 host_flag = 1;
                 host = strtol(optarg, NULL, 10);
-                printf("opt h: %s\n", optarg);
                 break;
             case 'd':
                 device_flag = 1;
                 device = strtol(optarg, NULL, 10);
-                printf("opt d: %s\n", optarg);
                 break;
             case 'p':
                 plugin_flag = 1;
                 plugin = strtol(optarg, NULL, 10);
-                printf("opt p: %s\n", optarg);
                 break;
             case 's':
                 sense_flag = 1;
                 sense_key = strtol(optarg, NULL, 10); 
-                printf("opt s: %s\n", optarg);
                 break;
             case 'a':
 				asd_flag = 1;
 				if (sscanf(optarg, "%x/%x", &asc, &ascq) != 2) {
 					return -1;
 				}
-                printf("opt a: %s\n", optarg);
                 break;
             case 'v':
                 printf("opt v: %s\n", optarg);
                 break;
             case '?':
+				printf("opt v: ?\n");
                 break;
             default:
                 break;
         }
     }
-
-    if (help_flag) {
-        printf("help?\n");
-    }
+	
+	if (help_flag) {
+		usage();
+		return 0;
+	}
 
     if (host_flag) {
         decode_host_status(host);
